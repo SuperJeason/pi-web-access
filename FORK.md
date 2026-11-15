@@ -57,6 +57,12 @@ Added `zhihu.ts` and wired it into `gemini-search.ts`, `index.ts`,
   Keys come from https://developer.zhihu.com/personal.
 - Not added: `/api/v1/content/global_search` (全网搜索) — it would duplicate the
   Searchinfinity provider.
+- Live-verified: `provider: "zhihu"` returns 10 items (answers + articles).
+  `zhihu_search` quota is **5000/day** per `/api/v1/quota` (hot_list 100,
+  global_search 5000, zdida 100).
+- Gotcha: a single mistyped character inside the 40-hex Access Secret still
+  looks plausible and yields the same `Code 20001` as a dead key, so verify
+  with `uvx zhihu-search --quota` before blaming the code.
 
 ## Sync with upstream
 
