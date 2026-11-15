@@ -33,6 +33,7 @@ import { isJinaSearchAvailable, searchWithJina } from "./jina-search.ts";
 import { isSerpdiveAvailable, searchWithSerpdive } from "./serpdive.ts";
 import { isKagiAvailable, searchWithKagi } from "./kagi.ts";
 import { isBochaAvailable, searchWithBocha } from "./bocha.ts";
+import { isZhihuAvailable, searchWithZhihu } from "./zhihu.ts";
 import { isOllamaAvailable, searchWithOllama } from "./ollama.ts";
 import { isSearXNGAvailable, searchWithSearXNG } from "./searxng.ts";
 import { isDegoogAvailable, searchWithDegoog } from "./degoog.ts";
@@ -64,7 +65,7 @@ import { isKimiSearchAvailable, searchWithKimi } from "./kimi-search.ts";
 import { isMistralAvailable, searchWithMistral } from "./mistral-search.ts";
 import { getWebSearchConfigPath } from "./utils.ts";
 
-export const RESOLVED_SEARCH_PROVIDERS = ["openai", "brave", "parallel", "parallel-mcp", "tinyfish", "search1api", "searchinfinity", "querit", "tavily", "you", "firecrawl", "jina", "searxng", "degoog", "duckduckgo", "perplexity", "gemini", "kimi", "exa", "serpdive", "kagi", "ollama", "anysearch", "xai", "mistral", "brightdata", "serpbase", "serpapi", "serper", "serply", "valyu", "bocha", "xcrawl", "baizhi", "zai", "keenable", "ceramic", "deepseek", "linkup", "ninerouter", "cloudflare", "searchapi", "outcrawl", "sofya", "cloro", "autom", "specstream", "tabstack"] as const;
+export const RESOLVED_SEARCH_PROVIDERS = ["openai", "brave", "parallel", "parallel-mcp", "tinyfish", "search1api", "searchinfinity", "querit", "tavily", "you", "firecrawl", "jina", "searxng", "degoog", "duckduckgo", "perplexity", "gemini", "kimi", "exa", "serpdive", "kagi", "ollama", "anysearch", "xai", "mistral", "brightdata", "serpbase", "serpapi", "serper", "serply", "valyu", "bocha", "xcrawl", "baizhi", "zai", "keenable", "ceramic", "deepseek", "linkup", "ninerouter", "cloudflare", "searchapi", "outcrawl", "sofya", "cloro", "autom", "specstream", "tabstack", "zhihu"] as const;
 export const SEARCH_PROVIDERS = ["auto", "all", ...RESOLVED_SEARCH_PROVIDERS] as const;
 
 export type ResolvedSearchProvider = typeof RESOLVED_SEARCH_PROVIDERS[number];
@@ -512,6 +513,7 @@ async function searchWithResolvedProvider(
 	if (provider === "serpdive") return { ...(await searchWithSerpdive(query, options)), provider };
 	if (provider === "kagi") return { ...(await searchWithKagi(query, options)), provider };
 	if (provider === "bocha") return { ...(await searchWithBocha(query, options)), provider };
+	if (provider === "zhihu") return { ...(await searchWithZhihu(query, options)), provider };
 	if (provider === "ollama") return { ...(await searchWithOllama(query, options)), provider };
 	if (provider === "anysearch") return { ...(await searchWithAnySearch(query, options)), provider };
 	if (provider === "xai") return { ...(await searchWithXai(query, options, options.extensionContext)), provider };
@@ -577,6 +579,7 @@ async function isResolvedProviderAvailable(provider: ResolvedSearchProvider, opt
 	if (provider === "serpdive") return isSerpdiveAvailable();
 	if (provider === "kagi") return isKagiAvailable();
 	if (provider === "bocha") return isBochaAvailable();
+	if (provider === "zhihu") return isZhihuAvailable();
 	if (provider === "ollama") return isOllamaAvailable();
 	if (provider === "anysearch") return isAnySearchAvailable();
 	if (provider === "xai") return isXaiSearchAvailable(options.extensionContext);
@@ -634,6 +637,7 @@ export function providerLabel(provider: ResolvedSearchProvider): string {
 	if (provider === "duckduckgo") return "DuckDuckGo";
 	if (provider === "kagi") return "Kagi";
 	if (provider === "bocha") return "Bocha";
+	if (provider === "zhihu") return "Zhihu";
 	if (provider === "xcrawl") return "XCrawl";
 	if (provider === "kimi") return "Kimi";
 	if (provider === "ollama") return "Ollama";

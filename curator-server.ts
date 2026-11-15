@@ -291,6 +291,7 @@ export function startCuratorServer(
 		if (provider === "serpdive") return availableProviders.serpdive;
 		if (provider === "kagi") return availableProviders.kagi;
 		if (provider === "bocha") return availableProviders.bocha;
+		if (provider === "zhihu") return availableProviders.zhihu;
 		if (provider === "ollama") return availableProviders.ollama;
 		if (provider === "searxng") return availableProviders.searxng;
 		if (provider === "degoog") return availableProviders.degoog;

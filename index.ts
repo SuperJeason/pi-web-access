@@ -57,6 +57,7 @@ import { isJinaSearchAvailable } from "./jina-search.ts";
 import { isSerpdiveAvailable } from "./serpdive.ts";
 import { isKagiAvailable } from "./kagi.ts";
 import { isBochaAvailable } from "./bocha.ts";
+import { isZhihuAvailable } from "./zhihu.ts";
 import { isOllamaAvailable } from "./ollama.ts";
 import { isSearXNGAvailable } from "./searxng.ts";
 import { isDegoogAvailable } from "./degoog.ts";
@@ -357,6 +358,7 @@ async function getProviderAvailability(ctx: ExtensionContext): Promise<ProviderA
 		serpdive: allowedProviders.has("serpdive") && isSerpdiveAvailable(),
 		kagi: allowedProviders.has("kagi") && isKagiAvailable(),
 		bocha: allowedProviders.has("bocha") && isBochaAvailable(),
+		zhihu: allowedProviders.has("zhihu") && isZhihuAvailable(),
 		ollama: allowedProviders.has("ollama") && isOllamaAvailable(),
 		searxng: allowedProviders.has("searxng") && isSearXNGAvailable(),
 		degoog: allowedProviders.has("degoog") && isDegoogAvailable(),

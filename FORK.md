@@ -37,6 +37,27 @@ the BytePlus international host, whose keys are not interchangeable.
 The 500 free searches/month quota is per Volcengine account and shared with every
 other way of calling 豆包搜索.
 
+## Local change 2 — new `zhihu` provider (知乎开放平台站内搜索)
+
+Added `zhihu.ts` and wired it into `gemini-search.ts`, `index.ts`,
+`curator-page.ts`, `curator-server.ts`.
+
+- Endpoint: `GET https://developer.zhihu.com/api/v1/content/zhihu_search`
+  (`Query`, `Count` ≤ 10), envelope `{ Code, Message, Data: { Items } }`.
+- Auth: `Authorization: Bearer <Access Secret>` **plus** `X-Request-Timestamp`
+  (seconds). Without the timestamp header the API answers `Code 20001`.
+- Item fields used: `Title`, `Url`, `ContentText`, `ContentType`, `AuthorName`,
+  `AuthorityLevel`, `VoteUpCount`, `CommentCount`, `EditTime` (unix seconds).
+- `recencyFilter` and `domainFilter` are applied locally (the API has no such
+  parameters); recency drops items with an `EditTime` older than the window.
+- Explicit-only: listed in `RESOLVED_SEARCH_PROVIDERS`, deliberately **not** in
+  `ALL_SEARCH_PROVIDERS`, so `auto` never picks it. Use `provider: "zhihu"` or
+  put `"zhihu"` in `searchRouting.providers`.
+- Config: `zhihuApiKey` (or `ZHIHU_API_KEY`), optional `zhihuBaseUrl`.
+  Keys come from https://developer.zhihu.com/personal.
+- Not added: `/api/v1/content/global_search` (全网搜索) — it would duplicate the
+  Searchinfinity provider.
+
 ## Sync with upstream
 
 ```bash
