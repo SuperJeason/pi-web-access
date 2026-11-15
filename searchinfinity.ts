@@ -137,6 +137,12 @@ function buildSearchBody(query: string, options: SearchinfinitySearchOptions): R
 	const timeRange = mapRecencyFilter(options.recencyFilter);
 	return {
 		Query: query,
+		// SearchType is required by the Volcengine China endpoint
+		// (open.feedcoopapi.com, 豆包搜索) and rejected with 10400
+		// "query or search type is empty" when omitted. BytePlus's
+		// international endpoint tolerates the omission, which is why
+		// upstream never sent it. See FORK.md.
+		SearchType: "web",
 		Count: normalizeSearchResultCount(options.numResults),
 		...(Object.keys(filter).length > 0 ? { Filter: filter } : {}),
 		...(timeRange ? { TimeRange: timeRange } : {}),
